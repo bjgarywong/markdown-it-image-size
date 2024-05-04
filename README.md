@@ -4,6 +4,15 @@ SPDX-FileCopyrightText: 2020 The HedgeDoc developers (see AUTHORS file)
 SPDX-License-Identifier: CC0-1.0
 -->
 
+# Modifications since forking
+
+1. Upgrade the version of markdown-it to 14.1.0
+2. Set the default width to 100% if no width or height is specified
+
+-------------------------------
+
+Below is the content before forking.
+
 # DEPRECATED
 
 Use https://github.com/hedgedoc/markdown-it-plugins instead
