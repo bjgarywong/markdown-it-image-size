@@ -8,6 +8,19 @@ SPDX-License-Identifier: CC0-1.0
 
 1. Upgrade the version of markdown-it to 14.1.0
 2. Set the default width to 100% if no width or height is specified
+3. Release the `dist` directory for javascript importing
+
+## Install nstructions
+
+by yarn:
+```
+yarn add git+https://github.com/bjgarywong/markdown-it-image-size.git
+```
+
+by npm:
+```
+npm install git+https://github.com/bjgarywong/markdown-it-image-size.git
+```
 
 -------------------------------
 
