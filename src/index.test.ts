@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import MarkdownIt from 'markdown-it/lib'
+import MarkdownIt from 'markdown-it'
 
 import { imageSize } from '../src/index.js'
 import { describe, expect, it } from '@jest/globals'
@@ -17,11 +17,11 @@ describe('markdown-it-imsize', function () {
   }).use(imageSize)
 
   it('renders a image without size or title', () => {
-    expect(md.renderInline('![test](x)')).toBe('<img src="x" alt="test">')
+    expect(md.renderInline('![test](x)')).toBe('<img src="x" alt="test" width="100%">')
   })
 
   it('renders a image with title', () => {
-    expect(md.renderInline('![test](x "thisisthetitle")')).toBe('<img src="x" alt="test" title="thisisthetitle">')
+    expect(md.renderInline('![test](x "thisisthetitle")')).toBe('<img src="x" alt="test" title="thisisthetitle" width="100%">')
   })
 
   it('renders an image with absolute width and height', () => {
@@ -39,7 +39,7 @@ describe('markdown-it-imsize', function () {
   })
 
   it('renders an image with no size but x', () => {
-    expect(md.renderInline('![test](x "thisisthetitle" =x)')).toBe('<img src="x" alt="test" title="thisisthetitle">')
+    expect(md.renderInline('![test](x "thisisthetitle" =x)')).toBe('<img src="x" alt="test" title="thisisthetitle" width="100%">')
   })
 
   it("doesn't render an image with invalid size syntax", () => {
@@ -52,5 +52,9 @@ describe('markdown-it-imsize', function () {
 
   it('renders an image with only height', () => {
     expect(md.renderInline('![test](x =x200)')).toBe('<img src="x" alt="test" height="200">')
+  })
+
+  test('default width', () => {
+    expect(md.renderInline('![test](http://foo.bar.zoo/a.png)', {})).toBe('<img src="http://foo.bar.zoo/a.png" alt="test" width="100%">')
   })
 })
