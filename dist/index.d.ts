@@ -1,6 +1,6 @@
-import { PluginSimple } from 'markdown-it';
+import { PluginWithOptions } from 'markdown-it';
 export interface ParseLinkResult {
     position: number;
     href: string;
 }
-export declare const imageSize: PluginSimple;
+export declare const imageSize: PluginWithOptions;

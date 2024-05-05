@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import MarkdownIt, { PluginSimple } from 'markdown-it'
+import MarkdownIt, { PluginSimple, PluginWithOptions } from 'markdown-it'
 import { RuleInline } from 'markdown-it/lib/parser_inline.mjs'
 import StateInline from 'markdown-it/lib/rules_inline/state_inline.mjs'
 import { ParseImageSize, parseImageSize } from './parse-image-size.js'
 import { SpecialCharacters } from './specialCharacters.js'
+import { ImSizeOptions, customRender } from './options.js'
 
 const checkForImageTagStart = (state: StateInline): boolean => {
   return (
@@ -232,8 +233,11 @@ const imageWithSize: RuleInline = (state: any, silent: any) => {
   // so all that's left to do is to call tokenizer.
   //
   if (!silent) {
-    if (width == '' && height == '') {
-      width = '100%'
+    if (width == '' && height == '' && !(imageWithSize as any).customRender) {      
+      const defaultWidth: string = (imageWithSize as any).defaultWidth
+      if (defaultWidth !== undefined) {
+        width = defaultWidth
+      }
     }
     createImageToken(state, labelStartIndex, labelEndIndex, href, title, width, height)
   }
@@ -243,6 +247,15 @@ const imageWithSize: RuleInline = (state: any, silent: any) => {
   return true
 }
 
-export const imageSize: PluginSimple = (md: MarkdownIt) => {
+export const imageSize: PluginWithOptions = (md: MarkdownIt, options?: ImSizeOptions) => {
+  if (options !== undefined) {
+    if (options.defaultWidth) {
+      (imageWithSize as any).defaultWidth = options.defaultWidth
+    }
+    if (options.customRender) {
+      (imageWithSize as any).customRender = options.customRender
+      md.renderer.rules.image = customRender
+    }
+  }
   md.inline.ruler.before('emphasis', 'image', imageWithSize as any)
 }

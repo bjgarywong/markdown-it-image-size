@@ -6,7 +6,7 @@
 
 import MarkdownIt from 'markdown-it'
 
-import { imageSize } from '../src/index.js'
+import { imageSize } from './index'
 import { describe, expect, it } from '@jest/globals'
 
 describe('markdown-it-imsize', function () {
@@ -17,11 +17,11 @@ describe('markdown-it-imsize', function () {
   }).use(imageSize)
 
   it('renders a image without size or title', () => {
-    expect(md.renderInline('![test](x)')).toBe('<img src="x" alt="test" width="100%">')
+    expect(md.renderInline('![test](x)')).toBe('<img src="x" alt="test">')
   })
 
   it('renders a image with title', () => {
-    expect(md.renderInline('![test](x "thisisthetitle")')).toBe('<img src="x" alt="test" title="thisisthetitle" width="100%">')
+    expect(md.renderInline('![test](x "thisisthetitle")')).toBe('<img src="x" alt="test" title="thisisthetitle">')
   })
 
   it('renders an image with absolute width and height', () => {
@@ -39,7 +39,7 @@ describe('markdown-it-imsize', function () {
   })
 
   it('renders an image with no size but x', () => {
-    expect(md.renderInline('![test](x "thisisthetitle" =x)')).toBe('<img src="x" alt="test" title="thisisthetitle" width="100%">')
+    expect(md.renderInline('![test](x "thisisthetitle" =x)')).toBe('<img src="x" alt="test" title="thisisthetitle">')
   })
 
   it("doesn't render an image with invalid size syntax", () => {
@@ -54,7 +54,21 @@ describe('markdown-it-imsize', function () {
     expect(md.renderInline('![test](x =x200)')).toBe('<img src="x" alt="test" height="200">')
   })
 
-  test('default width', () => {
+  it('default width', () => {
+    const md = new MarkdownIt({
+      html: true,
+      linkify: true,
+      typographer: true
+    }).use(imageSize, {defaultWidth: '100%'})
     expect(md.renderInline('![test](http://foo.bar.zoo/a.png)', {})).toBe('<img src="http://foo.bar.zoo/a.png" alt="test" width="100%">')
+  })
+
+  it('custom render', () => {
+    const md = new MarkdownIt({
+      html: true,
+      linkify: true,
+      typographer: true
+    }).use(imageSize, {customRender: true})
+    expect(md.renderInline('![test](http://foo.bar.zoo/a.png)', {})).toBe('<img src="http://foo.bar.zoo/a.png" alt="test" style="max-width:100%">')
   })
 })

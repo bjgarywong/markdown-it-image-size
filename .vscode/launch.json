@@ -8,7 +8,7 @@
       "skipFiles": [],
       "program": "${workspaceRoot}/node_modules/.bin/jest",
       "args": [
-        "${file}"
+        "${workspaceRoot}/src/index.test.ts"
       ]
     }
   ]

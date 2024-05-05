@@ -26,6 +26,7 @@
     "dist/index.mjs.map",
     "dist/index.umd.js",
     "dist/index.umd.js.map",
+    "dist/options.d.ts",
     "dist/parse-image-size.d.ts",
     "dist/specialCharacters.d.ts"
   ],
